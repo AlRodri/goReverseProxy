@@ -32,30 +32,37 @@ func GetConfig() *Config{
 }
 
 func dialTLS(network, addr string) (net.Conn, error) {
+	fmt.Printf("dialTLS - 1\n")
+	
 	conn, err := net.Dial(network, addr)
 	if err != nil {
 		return nil, err
 	}
-
+	fmt.Printf("dialTLS - 2\n")
+	
 	host, _, err := net.SplitHostPort(addr)
 	if err != nil {
 		return nil, err
 	}
 	cfg := &tls.Config{ServerName: host}
-
+	fmt.Printf("dialTLS - 3\n")
+	
 	tlsConn := tls.Client(conn, cfg)
 	if err := tlsConn.Handshake(); err != nil {
 		conn.Close()
 		return nil, err
 	}
-
+	fmt.Printf("dialTLS - 4\n")
+	
 	cs := tlsConn.ConnectionState()
 	cert := cs.PeerCertificates[0]
-
+	fmt.Printf("dialTLS - 5\n")
+	
 	// Verify here
 	cert.VerifyHostname(host)
 	log.Println(cert.Subject)
-
+	fmt.Printf("dialTLS - 6\n")
+	
 	return tlsConn, nil
 }
 
@@ -69,7 +76,7 @@ func main() {
 	proxy := httputil.NewSingleHostReverseProxy(&url.URL{
 		Scheme: "https",
 		//Host:   config.AppiotURL,
-		Host:   "kddiappiot.sensbysigma.com"
+		Host:   "kddiappiot.sensbysigma.com",
 	})
 	fmt.Printf("2\n")
 	
