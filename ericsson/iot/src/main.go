@@ -72,6 +72,7 @@ func main() {
 	//config := GetConfig()
 
 	fmt.Printf("1\n")
+
 	
 	proxy := httputil.NewSingleHostReverseProxy(&url.URL{
 		Scheme: "https",
@@ -91,6 +92,7 @@ func main() {
 		req.Host = req.URL.Host
 	}
 	fmt.Printf("4\n")
+	return;
 	
 	//logFile := "testlogfile"
 	port := "8888"
