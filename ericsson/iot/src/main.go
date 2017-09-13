@@ -64,36 +64,40 @@ func main() {
 	// Getting Configuration from json file
 	//config := GetConfig()
 
+	fmt.Printf("1\n")
+	
 	proxy := httputil.NewSingleHostReverseProxy(&url.URL{
 		Scheme: "https",
 		//Host:   config.AppiotURL,
-		Host:   "kddiappiot.sensbysigma.com",
-
+		Host:   "kddiappiot.sensbysigma.com"
 	})
-
+	fmt.Printf("2\n")
+	
 	// Set a custom DialTLS to access the TLS connection state
 	proxy.Transport = &http.Transport{DialTLS: dialTLS}
-
+	fmt.Printf("3\n")
+	
 	// Change req.Host so badssl.com host check is passed
 	director := proxy.Director
 	proxy.Director = func(req *http.Request) {
 		director(req)
 		req.Host = req.URL.Host
 	}
-
+	fmt.Printf("4\n")
+	
 	//logFile := "testlogfile"
-	port := ":"
+	port := "8888"
 	//port += config.Port
     if os.Getenv("HTTP_PLATFORM_PORT") != "" {
         //logFile = "D:\\home\\site\\wwwroot\\testlogfile"
-        port +=  os.Getenv("HTTP_PLATFORM_PORT")
-	} else{
-		port += "8888"		
+        port = os.Getenv("HTTP_PLATFORM_PORT")
 	}
+	fmt.Printf("5\n")
 	
 	fmt.Printf("starting server\n")
 
 	//log.Fatal(http.ListenAndServeTLS(port, "ericsson/iot/resources/certificate.pem", "ericsson/iot/resources/key.pem", proxy))
-	log.Fatal(http.ListenAndServe(port, proxy))
+	log.Fatal(http.ListenAndServe(":"+port, proxy))
+	fmt.Printf("6\n")
 }
 
