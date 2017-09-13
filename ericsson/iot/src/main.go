@@ -81,10 +81,16 @@ func main() {
 		req.Host = req.URL.Host
 	}
 
+	//logFile := "testlogfile"
 	port := ":"
 	//port += config.Port
-	port += "8888"
-
+    if os.Getenv("HTTP_PLATFORM_PORT") != "" {
+        //logFile = "D:\\home\\site\\wwwroot\\testlogfile"
+        port +=  os.Getenv("HTTP_PLATFORM_PORT")
+	} else{
+		port += "8888"		
+	}
+	
 	fmt.Printf("starting server\n")
 
 	//log.Fatal(http.ListenAndServeTLS(port, "ericsson/iot/resources/certificate.pem", "ericsson/iot/resources/key.pem", proxy))
