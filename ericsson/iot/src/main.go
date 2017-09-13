@@ -83,7 +83,7 @@ func main() {
 
 	port := ":"
 	//port += config.Port
-	port += "8888"
+	port += "80"
 
 	fmt.Printf("starting server\n")
 
